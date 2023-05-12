@@ -38,18 +38,18 @@ public class Movimiento {
 
   public boolean isDeposito() {
     return esDeposito;
-  }
+  }//Middle Man
 
   public boolean isExtraccion() {
     return !esDeposito;
-  }
+  }//Middle Man
 
-  public void agregateA(Cuenta cuenta) {
+  public void agregateA(Cuenta cuenta) { //Long Parameter List, tal vez
     cuenta.setSaldo(calcularValor(cuenta));
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
 
-  public double calcularValor(Cuenta cuenta) {
+  public double calcularValor(Cuenta cuenta) {//Duplicated Code
     if (esDeposito) {
       return cuenta.getSaldo() + getMonto();
     } else {

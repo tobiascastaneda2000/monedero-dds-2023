@@ -9,37 +9,37 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cuenta {
+public class Cuenta {//Large Class
 
   private double saldo = 0;
   private List<Movimiento> movimientos = new ArrayList<>();
 
   public Cuenta() {
     saldo = 0;
-  }
+  } //Duplicated code
 
   public Cuenta(double montoInicial) {
     saldo = montoInicial;
-  }
+  }//Duplicated code, saldo se le inicializa el valor 3 veces
 
   public void setMovimientos(List<Movimiento> movimientos) {
     this.movimientos = movimientos;
   }
 
-  public void poner(double cuanto) {
-    if (cuanto <= 0) {
+  public void poner(double cuanto){
+    if (cuanto <= 0) {//Duplicated Code
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
 
-    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
+    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {//Long Method
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);//Message Chains
   }
 
   public void sacar(double cuanto) {
-    if (cuanto <= 0) {
+    if (cuanto <= 0) {//Duplicated Code
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
     if (getSaldo() - cuanto < 0) {
@@ -51,7 +51,7 @@ public class Cuenta {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
           + " diarios, límite: " + limite);
     }
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this); //Middle Man
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
@@ -59,7 +59,7 @@ public class Cuenta {
     movimientos.add(movimiento);
   }
 
-  public double getMontoExtraidoA(LocalDate fecha) {
+  public double getMontoExtraidoA(LocalDate fecha) {//Long Method
     return getMovimientos().stream()
         .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
         .mapToDouble(Movimiento::getMonto)
